@@ -1,0 +1,36 @@
+import "goby/acomms/protobuf/dccl_option_extensions.proto"; // provides "dccl.msg" and "dccl.field"
+
+message AcommsExampleMessage
+{
+  option (dccl.msg).id = 101;
+  option (dccl.msg).max_bytes = 32;
+
+  
+  required uint32 index = 1 [(dccl.field).codec = "lab12_varint"];
+  required int32 random = 2 [(dccl.field).max = 99, (dccl.field).min = 0];
+  enum Sender
+  {
+    HENRIK = 1;
+    MIKERB = 2;
+    TES = 3;
+    AYAARI = 4;
+    ARTHURA = 5;
+    TBARTON = 6;
+    CLOITRE = 7;
+    SDANESH = 8;
+    INE = 9;
+    EMF43 = 10;
+    ARG = 11;
+    MATTGMIT = 12;
+    JLEIGHT = 13;
+    MMCGRAW = 14;
+    SPETILLO = 15;
+    MANGPO = 16;
+    ICRUST = 17;
+    ABS198 = 18;
+    JSCHUL = 19;
+    ROBTRUAX = 20;
+    YCK = 21;
+  }
+  required Sender sender = 3;
+}

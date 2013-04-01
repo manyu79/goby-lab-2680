@@ -1,0 +1,5 @@
+# Hashes of file build rules.
+b364b583e694ca2ee7417b9c5a40f45a src/protobuf/acomms_example.pb.cc
+f38527cb0be5841ce7379a2c7a03e7b3 src/protobuf/ctd.pb.cc
+eb45051198eec1e310ab95eaf88b8eda src/protobuf/ctd_default.pb.cc
+caca5349a25102c4b7e4b43b1485f714 src/protobuf/mini_command.pb.cc

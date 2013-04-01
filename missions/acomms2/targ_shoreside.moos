@@ -1,0 +1,108 @@
+
+ServerHost=localhost
+ServerPort=9000
+Community=sender
+
+
+ProcessConfig = ANTLER
+{
+    MSBetweenLaunches=0
+
+    Run = MOOSDB @ NewConsole = false
+    Run = pAcommsHandler @ NewConsole = true,XConfig=1
+    
+    Run = moos_gateway_g  @ NewConsole = true,XConfig=2,ExtraProcessParams=GatewayParams,InhibitMOOSParams=true  
+    GatewayParams = -c,moos_gateway_g.pb.cfg
+    Run = moos_goby_liaison  @ NewConsole = true,XConfig=3,ExtraProcessParams=LiaisonParams,InhibitMOOSParams=true  
+    LiaisonParams = -c,goby_liaison.pb.cfg 
+
+    Run = pCoroner @ NewConsole = true,XConfig=4
+
+    1 = -geometry,200x30+0+0,-bg,black,-fg,gray,-T,pAcommsHandler_sender
+    2 = -geometry,80x15+0+460,-bg,black,-fg,gray
+    3 = -geometry,80x15+0+690,-bg,black,-fg,gray
+    4 = -geometry,80x10+0+950,-bg,black,-fg,gray
+}
+
+ProcessConfig = pAcommsHandler
+{
+    // unique identifier for this node (like a MAC address)
+    modem_id: 1
+
+    common
+    {
+        verbosity: DEBUG2
+        show_gui: true
+        app_tick: 10
+        comm_tick: 10 
+        log: false
+    }
+    
+    load_shared_library: "../../lib/liblab12messages.dylib"
+    load_shared_library: "../../lib/liblab12codecs.dylib"
+
+    queue_cfg { 
+        message_entry {  
+            protobuf_name: "MiniCommand"
+            ack: false # no ack for mini packets
+            role { type: DESTINATION_ID field: "destination" }
+        }
+    }
+
+    translator_entry 
+    { 
+        protobuf_name: "MiniCommand"
+
+        trigger
+        {  type: TRIGGER_PUBLISH  moos_var: "MINI_COMMAND_OUT" }
+        create 
+        { 
+            technique: TECHNIQUE_PROTOBUF_TEXT_FORMAT 
+            moos_var: "MINI_COMMAND_OUT"
+        }
+        publish 
+        {
+            technique: TECHNIQUE_PROTOBUF_TEXT_FORMAT  
+            moos_var: "MINI_COMMAND_IN"
+        }
+        publish 
+        {
+            technique: TECHNIQUE_FORMAT  
+            moos_var: "%2%"
+            format: "true"
+        }
+        publish 
+        {
+            technique: TECHNIQUE_FORMAT  
+            moos_var: "MOOS_MANUAL_OVERRIDE"
+            format: "%3%"
+        }
+        publish 
+        {
+            technique: TECHNIQUE_FORMAT  
+            moos_var: "NEWPTS"
+            format: "speed=%4%"
+        }
+    }
+    
+    driver_type: DRIVER_WHOI_MICROMODEM
+    driver_cfg 
+    {
+        serial_port: "/dev/tty.PL2303-000012FD"
+    }
+
+    mac_cfg
+    {
+        type: MAC_FIXED_DECENTRALIZED
+        slot {
+            type: DRIVER_SPECIFIC
+            [micromodem.protobuf.type]: MICROMODEM_MINI_DATA
+            src: 1
+            slot_seconds: 5 
+        } 
+    }
+
+    multiplex_create_moos_var: "LIAISON_COMMANDER_OUT"
+}
+
+

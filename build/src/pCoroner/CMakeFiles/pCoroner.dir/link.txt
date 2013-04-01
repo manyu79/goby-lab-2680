@@ -1,0 +1,1 @@
+/usr/bin/c++    -fPIC -g -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/pCoroner.dir/pCoroner.cpp.o CMakeFiles/pCoroner.dir/pCoronerMain.cpp.o  -o ../../../bin/pCoroner  -L/Users/abelani/moos-ivp/lib  -lmbutil /Users/abelani/moos-ivp/MOOS/MOOSCore/lib/libMOOS.a -lpthread -lm 

@@ -1,0 +1,5 @@
+/Users/abelani/moos-ivp-abelani-acomms/build/src/ctd_tester/CMakeFiles/ctd_tester.dir
+/Users/abelani/moos-ivp-abelani-acomms/build/src/codecs/CMakeFiles/lab12codecs.dir
+/Users/abelani/moos-ivp-abelani-acomms/build/src/protobuf/CMakeFiles/lab12messages.dir
+/Users/abelani/moos-ivp-abelani-acomms/build/src/pAcommsExample/CMakeFiles/pAcommsExample.dir
+/Users/abelani/moos-ivp-abelani-acomms/build/src/pCoroner/CMakeFiles/pCoroner.dir
